@@ -1,7 +1,8 @@
 import React from "react";
 import { createBrowserRouter } from "react-router-dom";
-import Navbar from "../components/navbar/navbar";
+import HomePage from "../pages/homepage";
 
+// eslint-disable-next-line
 const user = {
   name: "GRASiN",
 };
@@ -9,11 +10,7 @@ const user = {
 const router = createBrowserRouter([
   {
     path: "/",
-    element: (
-      <div>
-        <Navbar user={user} />
-      </div>
-    ),
+    element: <HomePage />,
   },
 ]);
 

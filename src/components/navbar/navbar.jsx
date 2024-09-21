@@ -7,6 +7,7 @@ export default function Navbar({ user }) {
 
   function handleSearch() {
     if (searchQuery.trim() !== "") {
+      console.log(searchQuery);
       setSearchQuery("");
     } else {
     }
@@ -19,7 +20,7 @@ export default function Navbar({ user }) {
   }
 
   return (
-    <nav className="w-full h-16 bg-white flex flex-row justify-between items-center border-b-yellow-300 border-b-2">
+    <nav className="w-full h-16 bg-white flex flex-row justify-between items-center border-b-yellow-300 border-b-2 fixed top-0 z-10">
       <NavLink
         className="flex justify-center items-center w-1/3 h-full"
         id="brandLogo"
