@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { axiosInstance, END_POINTS } from "../services/api";
 import { useNavigate } from "react-router-dom";
+import ReactDOM from "react-dom";
 
 export default function Authentication({ isOpen, toggleModal }) {
   const [isLogin, setIsLogin] = useState(true);
@@ -19,10 +20,25 @@ export default function Authentication({ isOpen, toggleModal }) {
       [name]: value,
     }));
   };
+  const validateForm = () => {
+    if (!isLogin && formData.name.trim() === "") {
+      setErrorMessage("Name is required");
+      return false;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      setErrorMessage("Invalid email format");
+      return false;
+    }
+    if (formData.password.length < 6) {
+      setErrorMessage("Password should be at least 6 characters");
+      return false;
+    }
+    return true;
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    if (!validateForm()) return;
     try {
       const response = await axiosInstance.post(
         isLogin ? END_POINTS.LOGIN : END_POINTS.SIGNUP,
@@ -48,7 +64,7 @@ export default function Authentication({ isOpen, toggleModal }) {
     }
   };
 
-  return (
+  return ReactDOM.createPortal(
     <div className="flex items-center justify-center min-h-screen">
       {isOpen && (
         <div
@@ -131,6 +147,7 @@ export default function Authentication({ isOpen, toggleModal }) {
           </div>
         </div>
       )}
-    </div>
+    </div>,
+    document.querySelector("#authenticationModal")
   );
 }
