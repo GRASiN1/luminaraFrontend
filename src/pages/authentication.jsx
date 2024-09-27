@@ -65,7 +65,7 @@ export default function Authentication({ isOpen, toggleModal }) {
   };
 
   return ReactDOM.createPortal(
-    <div className="flex items-center justify-center min-h-screen">
+    <div className="flex items-center justify-center min-h-screen fixed">
       {isOpen && (
         <div
           className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
