@@ -1,7 +1,52 @@
 import React, { useState } from "react";
+import { axiosInstance, END_POINTS } from "../services/api";
+import { useNavigate } from "react-router-dom";
 
 export default function Authentication({ isOpen, toggleModal }) {
   const [isLogin, setIsLogin] = useState(true);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+  const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate();
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await axiosInstance.post(
+        isLogin ? END_POINTS.LOGIN : END_POINTS.SIGNUP,
+        formData
+      );
+      console.log("API response:", response.data);
+
+      if (response.status === 200 || response.status === 201) {
+        localStorage.setItem("authToken", response.data.token);
+        setErrorMessage(""); // Clear any previous error messages
+        toggleModal(); // Close the modal
+        // Reset the form data after success
+        setFormData({
+          name: "",
+          email: "",
+          password: "",
+        });
+        navigate("/");
+      }
+    } catch (error) {
+      console.error("API error:", error);
+      setErrorMessage("An error occurred, please try again.");
+    }
+  };
 
   return (
     <div className="flex items-center justify-center min-h-screen">
@@ -22,74 +67,61 @@ export default function Authentication({ isOpen, toggleModal }) {
               <h2 className="text-2xl font-semibold mb-6 text-center border-b-1 border-gray-300 pb-3">
                 {isLogin ? "Login" : "Sign Up"}
               </h2>
-              {isLogin ? (
-                <form
-                  id="loginForm"
-                  className="space-y-6 h-60 flex flex-col justify-center"
-                >
-                  <div>
-                    <input
-                      type="email"
-                      className="w-full p-2 border border-gray-300 rounded-md focus:outline-none shadow-md shadow-gray-300"
-                      placeholder="Email"
-                      required
-                    />
-                  </div>
-                  <div>
-                    <input
-                      type="password"
-                      className="w-full p-2 border border-gray-300 rounded-md focus:outline-none shadow-md shadow-gray-300"
-                      placeholder="Password"
-                      required
-                    />
-                  </div>
-                  <button
-                    type="submit"
-                    className="w-full bg-black text-white py-2 rounded-md hover:bg-yellow-400 hover:text-black transition"
-                  >
-                    {isLogin ? "Login" : "Sign Up"}
-                  </button>
-                </form>
-              ) : (
-                <form
-                  id="signupForm"
-                  className="space-y-6 h-60 flex flex-col justify-center"
-                >
+              <form
+                onSubmit={handleSubmit}
+                className="space-y-6 h-60 flex flex-col justify-center"
+              >
+                {!isLogin && (
                   <div>
                     <input
                       type="text"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleInputChange}
                       className="w-full p-2 border border-gray-300 rounded-md focus:outline-none shadow-md shadow-gray-300"
                       placeholder="Name"
-                      required
+                      required={!isLogin}
                     />
                   </div>
-                  <div>
-                    <input
-                      type="email"
-                      className="w-full p-2 border border-gray-300 rounded-md focus:outline-none shadow-md shadow-gray-300"
-                      placeholder="Email"
-                      required
-                    />
-                  </div>
-                  <div>
-                    <input
-                      type="password"
-                      className="w-full p-2 border border-gray-300 rounded-md focus:outline-none shadow-md shadow-gray-300"
-                      placeholder="Password"
-                      required
-                    />
-                  </div>
-                  <button
-                    type="submit"
-                    className="w-full bg-black text-white py-2 rounded-md hover:bg-yellow-400 hover:text-black transition"
-                  >
-                    {isLogin ? "Login" : "Sign Up"}
-                  </button>
-                </form>
+                )}
+                <div>
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    className="w-full p-2 border border-gray-300 rounded-md focus:outline-none shadow-md shadow-gray-300"
+                    placeholder="Email"
+                    required
+                  />
+                </div>
+                <div>
+                  <input
+                    type="password"
+                    name="password"
+                    value={formData.password}
+                    onChange={handleInputChange}
+                    className="w-full p-2 border border-gray-300 rounded-md focus:outline-none shadow-md shadow-gray-300"
+                    placeholder="Password"
+                    required
+                  />
+                </div>
+                <button
+                  type="submit"
+                  className="w-full bg-black text-white py-2 rounded-md hover:bg-yellow-400 hover:text-black transition"
+                >
+                  {isLogin ? "Login" : "Sign Up"}
+                </button>
+              </form>
+              {errorMessage && (
+                <p className="text-red-500 text-center mt-2">{errorMessage}</p>
               )}
               <p
                 className="text-center text-gray-500 mt-1 cursor-pointer"
-                onClick={() => setIsLogin(!isLogin)}
+                onClick={() => {
+                  setIsLogin(!isLogin);
+                  setErrorMessage(""); // Reset error when toggling forms
+                }}
               >
                 {isLogin
                   ? "Don't have an account?"
