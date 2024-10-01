@@ -1,0 +1,5 @@
+.gallery {
+  background-image: url("../../../public/images/introBckgnd.webp");
+  background-size: cover;
+  background-position: center;
+}

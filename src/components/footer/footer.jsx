@@ -3,7 +3,9 @@ import { Link } from "react-router-dom";
 
 export default function Footer() {
   return (
-    <footer className="w-full h-min bg-black flex flex-row justify-between items-start text-white px-40 py-5">
+    <footer
+      className={` w-full h-min bg-blackBean flex flex-row justify-between items-start text-mistyRose px-40 py-5`}
+    >
       <div
         id="resources"
         className="h-full flex flex-col justify-start items-start w-1/5"

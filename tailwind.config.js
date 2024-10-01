@@ -9,6 +9,13 @@ module.exports = {
       spacing: {
         18: "64px",
       },
+      colors: {
+        redwood: "#A45B5B",
+        mistyRose: "#FFD8D9",
+        salmonPink: "#FF9999",
+        caputMortuum: "#481C1C",
+        blackBean: "#481C1C",
+      },
     },
   },
   plugins: [],
