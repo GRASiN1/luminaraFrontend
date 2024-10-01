@@ -5,7 +5,7 @@ export default function Card() {
   const navigate = useNavigate();
   return (
     <div
-      className="w-60 h-max rounded-lg mx-2 mt-0 bg-transparent flex justify-center items-center flex-col  font-mono text-white"
+      className="w-60 h-max rounded-lg mx-2 mt-0 bg-transparent flex justify-center items-center flex-col  font-mono text-white cursor-pointer"
       onClick={() => {
         navigate("/product");
       }}
