@@ -16,6 +16,8 @@ const axiosInstance = axios.create({
 const END_POINTS = {
   LOGIN: "/auth/login",
   SIGNUP: "/auth/signup",
+  GET_CATEGORIES: "/getCategories",
+  GET_PRODUCTS: "/getProducts",
 };
 
 export { axiosInstance, END_POINTS, BASE_URL };
