@@ -1,7 +1,9 @@
 import React from "react";
 import styles from "./intro.module.css";
+import { useNavigate } from "react-router-dom";
 
 export default function Gallery() {
+  const navigate = useNavigate();
   return (
     <div
       className={`${styles.gallery} w-full h-screen border-b-1 border-gray-200`}
@@ -15,6 +17,14 @@ export default function Gallery() {
         <p className="text-xl font-thin">
           crochets items, from delicate decor to cozy apparels.
         </p>
+        <button
+          className="bg-white text-gray-800 font-bold py-2 px-4 rounded-full mt-4 hover:text-salmonPink"
+          onClick={() => {
+            navigate("/products");
+          }}
+        >
+          Explore
+        </button>
       </div>
     </div>
   );
