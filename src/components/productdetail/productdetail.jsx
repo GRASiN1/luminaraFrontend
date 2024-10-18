@@ -15,23 +15,29 @@ export default function ProductDetail() {
     }
   }, []);
 
-  function handleAddToCart() {
-    const existingItem = cartItems.find((item) => item.id === product.id);
+  function handleAddToCart(product) {
+    // Find the existing item in the cart by matching the product ID
+    const existingItem = cartItems.find((item) => item._id === product._id);
+
     if (existingItem) {
+      // If the product already exists, update the quantity
       const updatedCartItems = cartItems.map((item) =>
-        item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
+        item._id === product._id
+          ? { ...item, quantity: item.quantity + 1 }
+          : item
       );
+
       setCartItems(updatedCartItems);
       localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
     } else {
-      // If the product doesn't exist, add it to the cart
+      // If the product doesn't exist, add it to the cart with a quantity of 1
       const newItem = { ...product, quantity: 1 };
-      setCartItems([...cartItems, newItem]);
-      localStorage.setItem(
-        "cartItems",
-        JSON.stringify([...cartItems, newItem])
-      );
+      const newCartItems = [...cartItems, newItem];
+
+      setCartItems(newCartItems);
+      localStorage.setItem("cartItems", JSON.stringify(newCartItems));
     }
+
     showAlert("Product added to cart", "Success");
   }
 
@@ -61,7 +67,7 @@ export default function ProductDetail() {
                 Buy
               </Link>
               <button
-                onClick={handleAddToCart}
+                onClick={() => handleAddToCart(product)}
                 className="bg-black px-3 py-1 text-white rounded-md hover:bg-salmonPink hover:text-black"
               >
                 Add to cart
