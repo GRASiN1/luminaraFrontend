@@ -27,7 +27,7 @@ export default function Products() {
         },
       },
       {
-        _id: 101,
+        _id: 102,
         image: "/images/productImage.webp",
         name: "Lorem ipsum dolor",
         description:
@@ -40,7 +40,7 @@ export default function Products() {
         },
       },
       {
-        _id: 101,
+        _id: 103,
         image: "/images/productImage.webp",
         name: "Lorem ipsum dolor",
         description:
