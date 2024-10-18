@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { useAlert } from "../../contexts/AlertContext";
 
 export default function ProductDetail() {
   const location = useLocation();
   const { product } = location.state;
   const [cartItems, setCartItems] = useState([]);
+  const { showAlert } = useAlert();
 
   useEffect(() => {
     const storedCartItems = localStorage.getItem("cartItems");
@@ -30,6 +32,7 @@ export default function ProductDetail() {
         JSON.stringify([...cartItems, newItem])
       );
     }
+    showAlert("Product added to cart", "Success");
   }
 
   return (

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import Authentication from "../../pages/authentication";
+import Alert from "../alert/alert";
 
 export default function Navbar({ user }) {
   const [searchQuery, setSearchQuery] = useState("");
@@ -128,6 +129,7 @@ export default function Navbar({ user }) {
           )}
         </div>
       </nav>
+      <Alert />
       <Authentication isOpen={isOpen} toggleModal={toggleModal} />
     </>
   );
