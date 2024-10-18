@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-import { axiosInstance, END_POINTS } from "../services/api";
+// import { axiosInstance, END_POINTS } from "../services/api";
 import { useNavigate } from "react-router-dom";
 import ReactDOM from "react-dom";
+import { useUser } from "../contexts/UserContext";
+import { useAlert } from "../contexts/AlertContext";
 
 export default function Authentication({ isOpen, toggleModal }) {
   const [isLogin, setIsLogin] = useState(true);
@@ -12,6 +14,8 @@ export default function Authentication({ isOpen, toggleModal }) {
   });
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
+  const { Login, Signup } = useUser();
+  const { showAlert } = useAlert();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -40,26 +44,25 @@ export default function Authentication({ isOpen, toggleModal }) {
     e.preventDefault();
     if (!validateForm()) return;
     try {
-      const response = await axiosInstance.post(
-        isLogin ? END_POINTS.LOGIN : END_POINTS.SIGNUP,
-        formData
-      );
+      const response = isLogin
+        ? await Login(formData.email, formData.password)
+        : await Signup(formData.name, formData.email, formData.password);
       console.log("API response:", response.data);
 
       if (response.status === 200 || response.status === 201) {
-        localStorage.setItem("authToken", response.data.token);
-        setErrorMessage(""); // Clear any previous error messages
-        toggleModal(); // Close the modal
-        // Reset the form data after success
+        setErrorMessage("");
+        toggleModal();
         setFormData({
           name: "",
           email: "",
           password: "",
         });
+        showAlert("Login successful", "success");
         navigate("/");
       }
     } catch (error) {
       console.error("API error:", error);
+      showAlert(error, "error");
       setErrorMessage("An error occurred, please try again.");
     }
   };
@@ -68,19 +71,33 @@ export default function Authentication({ isOpen, toggleModal }) {
     <div className="flex items-center justify-center min-h-screen fixed">
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+          className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50"
           onClick={toggleModal}
         >
           <div
-            className="bg-black bg-opacity-90 p-8 rounded-xl shadow-lg relative max-w-4xl w-full flex flex-row items-center justify-center"
+            className="bg-redwood bg-opacity-90 p-8 rounded-xl shadow-lg relative max-w-4xl w-full flex flex-row items-center justify-center"
             onClick={(e) => e.stopPropagation()}
           >
-            <div id="intro" className="w-3/5 mx-1"></div>
+            <div
+              id="intro"
+              className="w-3/5 mx-1 flex justify-center items-center"
+            >
+              <object
+                type="image/svg+xml"
+                data={`/images/${
+                  isLogin ? "login-animate.svg" : "sign-up-animate.svg"
+                }`}
+                width={400}
+              >
+                Your browser does not support SVG
+              </object>
+            </div>
+
             <div
               id="authentication"
-              className="w-2/5 bg-white px-8 py-4 mx-1 rounded-lg"
+              className="w-2/5 bg-mistyRose px-8 py-4 mx-1 rounded-lg"
             >
-              <h2 className="text-2xl font-semibold mb-6 text-center border-b-1 border-gray-300 pb-3">
+              <h2 className="text-2xl font-semibold mb-6 text-center text-blackBean border-b-1 border-salmonPink pb-3">
                 {isLogin ? "Login" : "Sign Up"}
               </h2>
               <form
@@ -94,7 +111,7 @@ export default function Authentication({ isOpen, toggleModal }) {
                       name="name"
                       value={formData.name}
                       onChange={handleInputChange}
-                      className="w-full p-2 border border-gray-300 rounded-md focus:outline-none shadow-md shadow-gray-300"
+                      className="w-full p-2 border border-salmonPink rounded-md focus:outline-none shadow-md shadow-salmonPink"
                       placeholder="Name"
                       required={!isLogin}
                     />
@@ -106,7 +123,7 @@ export default function Authentication({ isOpen, toggleModal }) {
                     name="email"
                     value={formData.email}
                     onChange={handleInputChange}
-                    className="w-full p-2 border border-gray-300 rounded-md focus:outline-none shadow-md shadow-gray-300"
+                    className="w-full p-2 border border-salmonPink rounded-md focus:outline-none shadow-md shadow-salmonPink"
                     placeholder="Email"
                     required
                   />
@@ -117,14 +134,14 @@ export default function Authentication({ isOpen, toggleModal }) {
                     name="password"
                     value={formData.password}
                     onChange={handleInputChange}
-                    className="w-full p-2 border border-gray-300 rounded-md focus:outline-none shadow-md shadow-gray-300"
+                    className="w-full p-2 border border-salmonPink rounded-md focus:outline-none shadow-md shadow-salmonPink"
                     placeholder="Password"
                     required
                   />
                 </div>
                 <button
                   type="submit"
-                  className="w-full bg-black text-white py-2 rounded-md hover:bg-yellow-400 hover:text-black transition"
+                  className="w-full bg-black text-white py-2 rounded-md hover:bg-salmonPink hover:text-black transition"
                 >
                   {isLogin ? "Login" : "Sign Up"}
                 </button>
@@ -133,7 +150,7 @@ export default function Authentication({ isOpen, toggleModal }) {
                 <p className="text-red-500 text-center mt-2">{errorMessage}</p>
               )}
               <p
-                className="text-center text-gray-500 mt-1 cursor-pointer"
+                className="text-center text-redwood mt-1 cursor-pointer"
                 onClick={() => {
                   setIsLogin(!isLogin);
                   setErrorMessage(""); // Reset error when toggling forms
