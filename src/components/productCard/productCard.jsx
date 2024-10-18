@@ -16,7 +16,9 @@ export default function ProductCard(props) {
     <div
       className="w-60 h-max rounded-lg mx-2 mt-0 bg-transparent flex justify-center items-center flex-col  font-mono text-redwood cursor-pointer border-1 bg-white"
       onClick={() => {
-        navigate("/productDetail", { state: { product: props.product } });
+        navigate(`/products/productDetail/${props.product._id}`, {
+          state: { product: props.product },
+        });
       }}
     >
       <div className="h-full w-full">
