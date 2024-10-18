@@ -1,7 +1,7 @@
 import React from "react";
 import Navbar from "../components/navbar/navbar";
 import Footer from "../components/footer/footer";
-import Products from "../components/products/products";
+import { Outlet } from "react-router-dom";
 
 export default function ProductPage() {
   return (
@@ -11,7 +11,7 @@ export default function ProductPage() {
         id="content"
         className="mt-18 w-full h-full flex flex-col justify-center items-center"
       >
-        <Products />
+        <Outlet />
       </div>
       <Footer />
     </div>
