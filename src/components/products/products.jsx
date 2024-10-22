@@ -4,14 +4,18 @@ import { axiosInstance, END_POINTS } from "../../services/api";
 import { useLocation } from "react-router-dom";
 import ProductCard from "../productCard/productCard";
 import ProductCardLoader from "../productCard/productCardLoader";
+import { useAlert } from "../../contexts/AlertContext";
 
 export default function Products() {
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
   const location = useLocation();
 
+  const { showAlert } = useAlert();
   useEffect(() => {
+    setIsLoading(true);
+    let hasError = false;
+    // eslint-disable-next-line
     const mockData = [
       {
         _id: 101,
@@ -54,8 +58,6 @@ export default function Products() {
       },
     ];
     const fetchProducts = async () => {
-      setIsLoading(true);
-      setError(null);
       try {
         const category = location.state ? location.state.category : null;
         if (category) {
@@ -63,43 +65,37 @@ export default function Products() {
             params: { category },
           });
           setProducts(response.data);
-        } else if (mockData === null) {
+        } else {
           const response = await axiosInstance.get(END_POINTS.GET_PRODUCTS);
           setProducts(response.data);
-        } else {
-          setProducts(mockData);
         }
       } catch (error) {
-        setError(error);
+        hasError = true;
+        showAlert(error.message, "error");
       } finally {
-        setIsLoading(false);
+        if (!hasError) {
+          setIsLoading(false);
+        }
       }
     };
     fetchProducts();
   }, [location.state]);
 
   return (
-    <div className="w-full flex justify-center items-start  bg-pink-50">
-      <div className="m-5 grid grid-cols-5 gap-4">
-        {error ? (
-          error.message
-        ) : isLoading ? (
-          <div className="grid grid-cols-5 gap-4 my-10">
+    <div className="w-full flex justify-center items-start bg-pink-50">
+      <div className="m-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5 items-center justify-items-center">
+        {isLoading ? (
+          <>
             <ProductCardLoader />
             <ProductCardLoader />
             <ProductCardLoader />
             <ProductCardLoader />
             <ProductCardLoader />
-            <ProductCardLoader />
-            <ProductCardLoader />
-            <ProductCardLoader />
-            <ProductCardLoader />
-            <ProductCardLoader />
-          </div>
+          </>
         ) : (
-          products.map((product) => {
-            return <ProductCard key={product._id} product={product} />;
-          })
+          products.map((product) => (
+            <ProductCard key={product._id} product={product} />
+          ))
         )}
       </div>
     </div>
