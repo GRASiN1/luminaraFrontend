@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useAlert } from "../../contexts/AlertContext";
 
 export default function ProductDetail() {
@@ -7,6 +7,7 @@ export default function ProductDetail() {
   const { product } = location.state;
   const [cartItems, setCartItems] = useState([]);
   const { showAlert } = useAlert();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const storedCartItems = localStorage.getItem("cartItems");
@@ -14,6 +15,12 @@ export default function ProductDetail() {
       setCartItems(JSON.parse(storedCartItems));
     }
   }, []);
+
+  function handleBuy(product) {
+    const newItem = { ...product, quantity: 1 };
+    localStorage.setItem("product", JSON.stringify(newItem));
+    navigate("/checkout");
+  }
 
   function handleAddToCart(product) {
     // Find the existing item in the cart by matching the product ID
@@ -60,12 +67,12 @@ export default function ProductDetail() {
           <div className="w-full h-full flex flex-col justify-start items-start border-b-1 border-mistyRose pb-3 my-2">
             <p className="text-xl">₹ {product.price}</p>
             <div className="w-full flex flex-row justify-start items-center gap-5 my-3">
-              <Link
-                to="/cart"
+              <button
+                onClick={() => handleBuy(product)}
                 className="bg-black px-3 py-1 text-white rounded-md hover:bg-salmonPink hover:text-black"
               >
                 Buy
-              </Link>
+              </button>
               <button
                 onClick={() => handleAddToCart(product)}
                 className="bg-black px-3 py-1 text-white rounded-md hover:bg-salmonPink hover:text-black"
