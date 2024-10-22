@@ -39,15 +39,17 @@ export default function CategoryItems() {
   return (
     <div
       id="categories"
-      className={`${styles.categories} w-full flex flex-col justify-center items-center h-screen`}
+      className={`${styles.categories} w-full flex flex-col justify-center items-center min-h-screen overflow-auto py-28`}
     >
-      <div className="flex flex-col justify-center items-start px-24 w-full h-full text-white gap-4 pb-1">
-        <h3 className="text-7xl font-bold shadow-sm">Explore Categories!</h3>
-        <p className="text-2xl font-semibold font-mono">
+      <div className="flex flex-col justify-center items-start px-6 md:px-24 w-full text-white gap-4 pb-1 my-10">
+        <h3 className="text-4xl md:text-7xl font-bold shadow-sm">
+          Explore Categories!
+        </h3>
+        <p className="text-xl md:text-2xl font-semibold font-mono">
           We offer a wide range of categories to choose from.
         </p>
       </div>
-      <div className="flex flex-wrap gap-5 flex-row justify-center items-end w-full h-full pb-12">
+      <div className="m-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5 items-center justify-items-center">
         {categories.map((category, index) => {
           return (
             <Card
