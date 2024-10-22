@@ -4,6 +4,7 @@ import HomePage from "../pages/homepage";
 import ProductPage from "../pages/productPage";
 import ProductDetail from "../components/productdetail/productdetail";
 import Products from "../components/products/products";
+import Checkout from "../pages/checkout";
 
 // eslint-disable-next-line
 const user = {
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
         element: <ProductDetail />,
       },
     ],
+  },
+  {
+    path: "/checkout",
+    element: <Checkout />,
   },
 ]);
 
