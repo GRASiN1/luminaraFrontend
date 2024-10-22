@@ -30,10 +30,11 @@ export default function Navbar({ user }) {
     <>
       <nav className="w-full h-16 bg-white flex flex-row justify-between items-center border-b-pink-300 border-b-2 fixed top-0 z-10">
         <NavLink
+          to="/"
           className="flex justify-center items-center w-1/3 h-full"
           id="brandLogo"
         >
-          <img src="/images/brandLogo.png" alt="brand logo" className="h-20" />
+          <img src="/images/brandLogo.png" alt="brand logo" className="h-24" />
         </NavLink>
         <div
           id="searchArea"
