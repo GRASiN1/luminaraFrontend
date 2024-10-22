@@ -4,11 +4,11 @@ import { Link } from "react-router-dom";
 export default function Footer() {
   return (
     <footer
-      className={` w-full h-min bg-blackBean flex flex-row justify-between items-start text-mistyRose px-40 py-5`}
+      className={`w-full h-min bg-blackBean flex flex-col md:flex-row justify-between items-start text-mistyRose px-10 sm:px-20 md:px-40 py-5 gap-5 text-center`}
     >
       <div
         id="resources"
-        className="h-full flex flex-col justify-start items-start w-1/5"
+        className="flex flex-col justify-start items-center w-full md:w-1/5 mb-5 md:mb-0"
       >
         <h3 className="text-2xl font-bold">Resources</h3>
         <Link to="/" className="my-2">
@@ -24,9 +24,10 @@ export default function Footer() {
           Customer Support
         </Link>
       </div>
+
       <div
         id="quickLinks"
-        className="h-full flex flex-col justify-start items-start w-1/5"
+        className="flex flex-col justify-start items-center w-full md:w-1/5 mb-5 md:mb-0"
       >
         <h3 className="text-2xl font-bold">Quick Links</h3>
         <Link to="/" className="my-2">
@@ -42,9 +43,10 @@ export default function Footer() {
           FAQs
         </Link>
       </div>
+
       <div
         id="socials"
-        className="h-full flex flex-col justify-start items-start w-1/5"
+        className="flex flex-col justify-start items-center w-full md:w-1/5 mb-5 md:mb-0"
       >
         <h3 className="text-2xl font-bold">Socials</h3>
         <Link to="/" className="my-2">
@@ -60,9 +62,10 @@ export default function Footer() {
           LinkedIn
         </Link>
       </div>
+
       <div
         id="contacts"
-        className="h-full flex flex-col justify-start items-start w-1/5"
+        className="flex flex-col justify-start items-center w-full md:w-1/5 mb-5 md:mb-0"
       >
         <h3 className="text-2xl font-bold">Contact us</h3>
         <Link to="/" className="my-2">
@@ -74,14 +77,15 @@ export default function Footer() {
           Our Working hours are - 9:00am to 5:00pm, Monday to Friday
         </p>
       </div>
+
       <div
         id="store"
-        className="h-full flex flex-col justify-start items-start w-1/5"
+        className="flex flex-col justify-start items-center w-full md:w-1/5 mb-5 md:mb-0"
       >
         <h3 className="text-2xl font-bold">Luminara Store</h3>
         <p className="my-2">Visit us at:</p>
         <p>
-          A , Ground Floor, Gurumukh Sagar, Plot 126, 29th Rd, opposite H&M
+          A, Ground Floor, Gurumukh Sagar, Plot 126, 29th Rd, opposite H&M
           Tower, Bandra West, Mumbai, Maharashtra 400050
         </p>
       </div>
