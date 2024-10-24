@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-// import { axiosInstance, END_POINTS } from "../services/api";
 import { useNavigate } from "react-router-dom";
 import ReactDOM from "react-dom";
 import { useUser } from "../contexts/UserContext";
@@ -24,6 +23,7 @@ export default function Authentication({ isOpen, toggleModal }) {
       [name]: value,
     }));
   };
+
   const validateForm = () => {
     if (!isLogin && formData.name.trim() === "") {
       setErrorMessage("Name is required");
@@ -47,6 +47,7 @@ export default function Authentication({ isOpen, toggleModal }) {
       const response = isLogin
         ? await Login(formData.email, formData.password)
         : await Signup(formData.name, formData.email, formData.password);
+
       console.log("API response:", response.data);
 
       if (response.status === 200 || response.status === 201) {
@@ -57,13 +58,18 @@ export default function Authentication({ isOpen, toggleModal }) {
           email: "",
           password: "",
         });
-        showAlert("Login successful", "success");
+        showAlert(
+          isLogin ? "Login successful" : "Signup successful, you can now login",
+          "success"
+        );
         navigate("/");
       }
     } catch (error) {
+      const message =
+        error.response?.data?.message || "An error occurred, please try again.";
       console.error("API error:", error);
-      showAlert(error, "error");
-      setErrorMessage("An error occurred, please try again.");
+      showAlert(message, "error");
+      setErrorMessage(message);
     }
   };
 
@@ -92,7 +98,6 @@ export default function Authentication({ isOpen, toggleModal }) {
                 Your browser does not support SVG
               </object>
             </div>
-
             <div
               id="authentication"
               className="w-2/5 bg-mistyRose px-8 py-4 mx-1 rounded-lg"
@@ -113,6 +118,7 @@ export default function Authentication({ isOpen, toggleModal }) {
                       onChange={handleInputChange}
                       className="w-full p-2 border border-salmonPink rounded-md focus:outline-none shadow-md shadow-salmonPink"
                       placeholder="Name"
+                      aria-label="Name"
                       required={!isLogin}
                     />
                   </div>
@@ -125,6 +131,7 @@ export default function Authentication({ isOpen, toggleModal }) {
                     onChange={handleInputChange}
                     className="w-full p-2 border border-salmonPink rounded-md focus:outline-none shadow-md shadow-salmonPink"
                     placeholder="Email"
+                    aria-label="Email"
                     required
                   />
                 </div>
@@ -136,6 +143,7 @@ export default function Authentication({ isOpen, toggleModal }) {
                     onChange={handleInputChange}
                     className="w-full p-2 border border-salmonPink rounded-md focus:outline-none shadow-md shadow-salmonPink"
                     placeholder="Password"
+                    aria-label="Password"
                     required
                   />
                 </div>
