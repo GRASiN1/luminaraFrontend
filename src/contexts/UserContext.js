@@ -15,7 +15,7 @@ export const UserProvider = ({ children }) => {
     if (token) {
       // Set user state from localStorage if it exists
       if (userData) {
-        setUser(JSON.parse(userData)); // Parse user data from localStorage
+        setUser(JSON.parse(userData));
       } else {
         // If user data is not in localStorage, fetch user data
         axiosInstance
