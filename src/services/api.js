@@ -15,6 +15,7 @@ const axiosInstance = axios.create({
 const END_POINTS = {
   LOGIN: "/user/loginUser",
   SIGNUP: "/user/createUser",
+  FETCH_USER: "/user/getUserDetails",
   GET_CATEGORIES: "/getCategories",
   GET_PRODUCTS: "/getProducts",
 };
