@@ -2,14 +2,16 @@ import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import Authentication from "../../pages/authentication";
 import Alert from "../alert/alert";
+import { useUser } from "../../contexts/UserContext";
 
-export default function Navbar({ user }) {
+export default function Navbar() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const toggleModal = () => {
     setIsOpen(!isOpen);
   };
 
+  const { user } = useUser();
   const navigate = useNavigate();
 
   function handleSearch() {
