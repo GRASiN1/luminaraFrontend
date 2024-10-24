@@ -13,8 +13,8 @@ const axiosInstance = axios.create({
 });
 
 const END_POINTS = {
-  LOGIN: "/auth/login",
-  SIGNUP: "/auth/signup",
+  LOGIN: "/user/loginUser",
+  SIGNUP: "/user/createUser",
   GET_CATEGORIES: "/getCategories",
   GET_PRODUCTS: "/getProducts",
 };
