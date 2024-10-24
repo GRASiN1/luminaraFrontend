@@ -1,17 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import Navbar from "../components/navbar/navbar";
 import Footer from "../components/footer/footer";
 import Address from "../components/address/address";
 import { useNavigate } from "react-router-dom";
+import AddAddress from "../components/address/addAddress";
 
 export default function Checkout() {
   const navigate = useNavigate();
+  const [isOpen, setIsOpen] = useState(false);
+  const toggleModal = () => {
+    setIsOpen(!isOpen);
+  };
 
   function handlePayClick() {
     navigate("/payment");
   }
-
-  function handleAddAddressClick() {}
 
   return (
     <div id="main-container">
@@ -23,7 +26,7 @@ export default function Checkout() {
         <div className="flex flex-col justify-center items-center w-full h-full px-10 py-10 gap-5">
           <button
             className="w-full h-10  border-caputMortuum border-2 rounded-md text-center bg-pink-50 text-caputMortuum"
-            onClick={handleAddAddressClick}
+            onClick={toggleModal}
           >
             +
           </button>
@@ -36,6 +39,7 @@ export default function Checkout() {
           </button>
         </div>
       </div>
+      <AddAddress isOpen={isOpen} toggleModal={toggleModal} />
       <Footer />
     </div>
   );
