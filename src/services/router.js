@@ -5,6 +5,9 @@ import ProductPage from "../pages/productPage";
 import ProductDetail from "../components/productdetail/productdetail";
 import Products from "../components/products/products";
 import Checkout from "../pages/checkout";
+import CartPage from "../pages/cartpage";
+import WishlistPage from "../pages/wishlistpage";
+import ProfilePage from "../pages/profilepage";
 
 // eslint-disable-next-line
 const user = {
@@ -33,6 +36,18 @@ const router = createBrowserRouter([
   {
     path: "/checkout",
     element: <Checkout />,
+  },
+  {
+    path: "/cart",
+    element: <CartPage />,
+  },
+  {
+    path: "/wishlist",
+    element: <WishlistPage />,
+  },
+  {
+    path: "/profile",
+    element: <ProfilePage />,
   },
 ]);
 
