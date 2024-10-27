@@ -21,9 +21,9 @@ export default function Checkout() {
       <Navbar />
       <div
         id="content"
-        className="mt-18 w-full h-full flex flex-col justify-center items-center bg-pink-50"
+        className=" w-full min-h-screen flex flex-col justify-center items-center bg-pink-50"
       >
-        <div className="flex flex-col justify-center items-center w-full h-full px-10 py-10 gap-5">
+        <div className="flex flex-col justify-center items-center w-full h-full px-10  gap-5">
           <button
             className="w-full h-10  border-caputMortuum border-2 rounded-md text-center bg-pink-50 text-caputMortuum"
             onClick={toggleModal}

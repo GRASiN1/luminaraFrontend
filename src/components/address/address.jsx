@@ -68,7 +68,7 @@ export default function Address() {
   }
 
   return (
-    <div className="w-full h-80 border-redwood border-1 rounded-md overflow-auto text-caputMortuum">
+    <div className="w-full h-96 border-redwood border-1 rounded-md overflow-auto text-caputMortuum">
       {addresses.map((address, index) => {
         const isSelected = selectedAddress === address;
         return (

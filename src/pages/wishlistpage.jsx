@@ -9,7 +9,7 @@ export default function WishlistPage() {
       <Navbar />
       <div
         id="content"
-        className="mt-18 w-full h-full flex flex-col justify-center items-center"
+        className="mt-18 w-full min-h-screen flex flex-col justify-center items-center bg-purple-50"
       >
         working on wishlist part
         <Outlet />
