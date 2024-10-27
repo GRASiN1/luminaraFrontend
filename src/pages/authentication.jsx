@@ -48,8 +48,6 @@ export default function Authentication({ isOpen, toggleModal }) {
         ? await Login(formData.email, formData.password)
         : await Signup(formData.name, formData.email, formData.password);
 
-      console.log("API response:", response.data);
-
       if (response.status === 200 || response.status === 201) {
         setErrorMessage("");
         toggleModal();
@@ -67,7 +65,6 @@ export default function Authentication({ isOpen, toggleModal }) {
     } catch (error) {
       const message =
         error.response?.data?.message || "An error occurred, please try again.";
-      console.error("API error:", error);
       showAlert(message, "error");
       setErrorMessage(message);
     }
