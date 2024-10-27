@@ -24,8 +24,8 @@ export default function ProductCard(props) {
       <div className="h-full w-full">
         <img
           src={
-            props.product.image
-              ? props.product.image
+            props.product.productImage
+              ? props.product.productImage
               : "/images/productImage.JPEG"
           }
           alt="product"
@@ -33,9 +33,9 @@ export default function ProductCard(props) {
         />
       </div>
       <div className="flex justify-center items-center flex-col w-full h-full px-3 py-1 border-b-1 border-gray-300">
-        <h3 className="text-xl font-bold">{props.product.name}</h3>
+        <h3 className="text-xl font-bold">{props.product.productName}</h3>
         <p className="text-sm text-center">
-          {trimToLength(props.product.description, 6)}
+          {trimToLength(props.product.productDescription, 6)}
         </p>
       </div>
       <button className="h-full w-full flex justify-center items-center p-2 border-t-2 border-transparent transition-border-color duration-500 ease-in-out hover:border-pink-300 ">

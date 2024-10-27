@@ -53,19 +53,19 @@ export default function ProductDetail() {
       <div className="w-full h-full flex flex-row justify-around items-center p-10">
         <div className="w-1/2 flex justify-center items-center p-2">
           <img
-            src={product.image}
-            alt={product.name}
+            src={product.productImage}
+            alt={product.productName}
             width={450}
             className="rounded-md"
           />
         </div>
         <div className="w-1/2 h-full flex flex-col justify-start items-start">
           <div className="w-full h-full flex flex-col justify-start items-start border-b-1 border-mistyRose pb-3">
-            <h3 className="text-4xl font-bold">{product.name}</h3>
-            <p className="text-xl">{product.description}</p>
+            <h3 className="text-4xl font-bold">{product.productName}</h3>
+            <p className="text-xl">{product.productDescription}</p>
           </div>
           <div className="w-full h-full flex flex-col justify-start items-start border-b-1 border-mistyRose pb-3 my-2">
-            <p className="text-xl">₹ {product.price}</p>
+            <p className="text-xl">₹ {product.productPrice}</p>
             <div className="w-full flex flex-row justify-start items-center gap-5 my-3">
               <button
                 onClick={() => handleBuy(product)}

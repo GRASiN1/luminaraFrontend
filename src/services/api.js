@@ -17,7 +17,7 @@ const END_POINTS = {
   SIGNUP: "/user/createUser",
   FETCH_USER: "/user/getUserDetails",
   GET_CATEGORIES: "/getCategories",
-  GET_PRODUCTS: "/getProducts",
+  GET_PRODUCTS: "/product/getAllProducts",
 };
 
 export { axiosInstance, END_POINTS, BASE_URL };

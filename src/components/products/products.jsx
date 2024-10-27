@@ -23,15 +23,12 @@ export default function Products() {
     const fetchProducts = async () => {
       try {
         const category = location.state ? location.state.category : null;
-        let response;
-        if (category) {
-          response = await axiosInstance.get(END_POINTS.GET_PRODUCTS, {
-            params: { category },
-          });
-        } else {
-          response = await axiosInstance.get(END_POINTS.GET_PRODUCTS);
-        }
-        setProducts(response.data);
+        const response = await axiosInstance.get(END_POINTS.GET_PRODUCTS, {
+          params: { category },
+        });
+        if (response.data.productsList.length === 0)
+          throw new Error("No products found");
+        setProducts(response.data.productsList);
       } catch (error) {
         hasError = true;
         showAlertRef.current(error.message, "error");
