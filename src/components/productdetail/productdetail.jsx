@@ -17,8 +17,22 @@ export default function ProductDetail() {
   }, []);
 
   function handleBuy(product) {
+    // Retrieve the current cart from localStorage
+    const cart = JSON.parse(localStorage.getItem("cartItems")) || [];
+    // Check if the product already exists in the cart
+    const existingProductIndex = cart.findIndex(
+      (item) => item._id === product._id
+    );
+    if (existingProductIndex !== -1) {
+      // Remove the existing product from the cart
+      cart.splice(existingProductIndex, 1);
+      // Update the cart in localStorage
+      localStorage.setItem("cartItems", JSON.stringify(cart));
+    }
+    // Save the current product as a new localStorage item with quantity 1
     const newItem = { ...product, quantity: 1 };
     localStorage.setItem("product", JSON.stringify(newItem));
+    // Navigate to checkout
     navigate("/checkout");
   }
 
