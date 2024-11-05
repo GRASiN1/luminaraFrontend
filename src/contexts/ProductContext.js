@@ -25,6 +25,7 @@ export const ProductProvider = ({ children }) => {
 
   const fetchAndSetProducts = useCallback(async (category = null) => {
     setIsLoading(true);
+    let hasErrors = false;
     try {
       const { data } = await axiosInstance.get(END_POINTS.GET_PRODUCTS, {
         params: { category },
@@ -32,9 +33,10 @@ export const ProductProvider = ({ children }) => {
       if (data.productsList.length === 0) throw new Error("No products found");
       setProducts(data.productsList);
     } catch (error) {
+      hasErrors = true;
       showAlertRef.current(error.message, "error");
     } finally {
-      setIsLoading(false);
+      if (!hasErrors) setIsLoading(false);
     }
   }, []);
 
