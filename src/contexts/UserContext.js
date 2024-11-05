@@ -4,25 +4,23 @@ import { axiosInstance, END_POINTS } from "../services/api";
 // Create UserContext
 const UserContext = createContext();
 
-// UserProvider component to manage user state
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [isUserLoaded, setIsUserLoaded] = useState(false); // Flag to track loading completion
 
   useEffect(() => {
     const token = localStorage.getItem("authToken");
-    const userData = localStorage.getItem("user");
 
     if (token) {
-      // Set user state from localStorage if it exists
-      if (userData) {
-        setUser(JSON.parse(userData));
-      } else {
-        // If user data is not in localStorage, fetch user data
-        fetchUserData(token);
-      }
+      // If token exists, fetch user data
+      fetchUserData(token);
+    } else {
+      // If no token, mark loading as complete
+      setIsUserLoaded(true);
     }
-  }, []); // Function to fetch user data and set user state
+  }, []);
 
+  // Function to fetch user data and set user state
   const fetchUserData = async (token) => {
     try {
       const response = await axiosInstance.get(END_POINTS.FETCH_USER, {
@@ -31,7 +29,8 @@ export const UserProvider = ({ children }) => {
         },
       });
       const { _id, fullName, email, role } = response.data.user;
-      setUser({ _id, fullName, email, role }); // Store user data in localStorage for future use
+      setUser({ _id, fullName, email, role });
+      // Store user data in localStorage for future use
       localStorage.setItem(
         "user",
         JSON.stringify({ _id, fullName, email, role })
@@ -41,9 +40,12 @@ export const UserProvider = ({ children }) => {
       if (error.response && error.response.status === 401) {
         localStorage.removeItem("authToken"); // Remove token only on unauthorized
       }
+    } finally {
+      setIsUserLoaded(true); // Mark loading complete regardless of fetch success
     }
-  }; // Function to refetch user data on demand
+  };
 
+  // Function to refetch user data on demand
   const refetchUser = async () => {
     const token = localStorage.getItem("authToken");
     if (token) {
@@ -80,17 +82,25 @@ export const UserProvider = ({ children }) => {
       JSON.stringify({ _id, fullName, email, role })
     );
     return response;
-  } // Logout function
+  }
 
   function Logout() {
     setUser(null); // Clear user state
     localStorage.removeItem("authToken");
     localStorage.removeItem("user");
-  } // Provide user state and actions to the context
+  }
 
   return (
     <UserContext.Provider
-      value={{ user, Login, Signup, Logout, refetchUser, setUser }}
+      value={{
+        user,
+        Login,
+        Signup,
+        Logout,
+        refetchUser,
+        setUser,
+        isUserLoaded,
+      }}
     >
       {children}
     </UserContext.Provider>

@@ -12,11 +12,11 @@ const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
-  const { user } = useUser();
+  const { user, isUserLoaded } = useUser(); // Include isUserLoaded from UserContext
 
   const updateCartOnServer = useCallback(
     async (cartItems) => {
-      if (!user || !user._id) return; // Ensure user is authenticated
+      if (!isUserLoaded || !user || !user._id) return; // Ensure user is authenticated and fully loaded
 
       try {
         await axiosInstance.post(END_POINTS.UPDATE_CART, {
@@ -27,28 +27,32 @@ export const CartProvider = ({ children }) => {
         console.error("Failed to update cart on server", error);
       }
     },
-    [user]
+    [user, isUserLoaded]
   );
 
   useEffect(() => {
-    const storedCartItems = localStorage.getItem("cartItems");
+    if (isUserLoaded) {
+      const storedCartItems = localStorage.getItem("cartItems");
 
-    if (storedCartItems) {
-      setCartItems(JSON.parse(storedCartItems));
-    } else if (user && user.cartItems) {
-      setCartItems(user.cartItems);
+      if (storedCartItems) {
+        setCartItems(JSON.parse(storedCartItems));
+      } else if (user && user.cartItems) {
+        setCartItems(user.cartItems);
+      }
     }
-  }, [user]);
+  }, [user, isUserLoaded]);
 
   useEffect(() => {
-    localStorage.setItem("cartItems", JSON.stringify(cartItems));
+    if (isUserLoaded) {
+      localStorage.setItem("cartItems", JSON.stringify(cartItems));
 
-    const debounceUpdate = setTimeout(() => {
-      updateCartOnServer(cartItems);
-    }, 500); // Debounce for 500ms
+      const debounceUpdate = setTimeout(() => {
+        updateCartOnServer(cartItems);
+      }, 500); // Debounce for 500ms
 
-    return () => clearTimeout(debounceUpdate);
-  }, [cartItems, updateCartOnServer]);
+      return () => clearTimeout(debounceUpdate);
+    }
+  }, [cartItems, updateCartOnServer, isUserLoaded]);
 
   const addToCart = (product) => {
     setCartItems((prevItems) => {

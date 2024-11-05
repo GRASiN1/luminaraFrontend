@@ -8,6 +8,7 @@ import React, {
 } from "react";
 import { axiosInstance, END_POINTS } from "../services/api";
 import { useAlert } from "./AlertContext";
+import { useUser } from "./UserContext";
 
 const ProductContext = createContext();
 
@@ -16,6 +17,7 @@ export const ProductProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(false);
   const { showAlert } = useAlert();
   const showAlertRef = useRef(showAlert);
+  const { isUserLoaded } = useUser();
 
   useEffect(() => {
     showAlertRef.current = showAlert;
@@ -37,15 +39,23 @@ export const ProductProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    const storedProducts = localStorage.getItem("products");
-    if (storedProducts) {
-      setProducts(JSON.parse(storedProducts));
-    } else {
-      fetchAndSetProducts();
+    // Ensure 'products' array is initialized in localStorage
+    if (!localStorage.getItem("products")) {
+      localStorage.setItem("products", JSON.stringify([]));
     }
-  }, [fetchAndSetProducts]);
+    // Fetch products only after user is loaded
+    if (isUserLoaded) {
+      const storedProducts = localStorage.getItem("products");
+      if (storedProducts) {
+        setProducts(JSON.parse(storedProducts));
+      } else {
+        fetchAndSetProducts();
+      }
+    }
+  }, [isUserLoaded, fetchAndSetProducts]);
 
   useEffect(() => {
+    // Update localStorage whenever products are fetched or updated
     localStorage.setItem("products", JSON.stringify(products));
   }, [products]);
 
