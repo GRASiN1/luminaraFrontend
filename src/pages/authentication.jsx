@@ -63,8 +63,7 @@ export default function Authentication({ isOpen, toggleModal }) {
         navigate("/");
       }
     } catch (error) {
-      const message =
-        error.response?.data?.message || "An error occurred, please try again.";
+      const message = error.message;
       showAlert(message, "error");
       setErrorMessage(message);
     }
