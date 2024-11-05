@@ -28,7 +28,7 @@ export const UserProvider = ({ children }) => {
           Authorization: `Bearer ${token}`,
         },
       });
-      const { _id, fullName, email, role } = response.data.user;
+      const { _id, fullName, email, role } = response.data;
       setUser({ _id, fullName, email, role });
       // Store user data in localStorage for future use
       localStorage.setItem(
@@ -74,7 +74,7 @@ export const UserProvider = ({ children }) => {
       email: email,
       password: password,
     });
-    const { _id, fullName, role } = response.data.user;
+    const { _id, fullName, role } = response.data;
     setUser({ _id, fullName, email, role }); // Update user state after signup
     localStorage.setItem("authToken", response.data.token);
     localStorage.setItem(
