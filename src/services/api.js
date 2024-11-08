@@ -20,6 +20,8 @@ const END_POINTS = {
   FETCH_USER: "/user/getUserDetails",
   GET_CATEGORIES: "/getCategories",
   GET_PRODUCTS: "/product/getAllProducts",
+  GET_REVIEWS: "/review/getProductReviews",
+  ADD_REVIEW: "/review/createReview/:productId",
 };
 
 export { axiosInstance, END_POINTS, BASE_URL };

@@ -42,7 +42,7 @@ export default function ProductCard(props) {
       </div>
       <div className="h-full w-full flex flex-row justify-around items-center p-2 border-t-2 border-transparent transition-border-color duration-500 ease-in-out hover:border-pink-300 ">
         <button className="text-center border-r-2 w-full hover:text-lg text-sm h-full py-2 hover:py-1">
-          Buy
+          Check
         </button>
         <svg
           onClick={handleAddToWishList}
