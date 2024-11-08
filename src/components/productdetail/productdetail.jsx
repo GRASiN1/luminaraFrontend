@@ -23,12 +23,11 @@ export default function ProductDetail() {
       setLoading(true);
       let hasError = false;
       try {
-        const response = await axiosInstance.get(END_POINTS.GET_REVIEWS, {
-          params: { productId: product._id },
-        });
-        if (response.data.reviews?.length <= 0)
-          throw new Error("No reviews found");
-        setReviews(response.data.reviews);
+        const response = await axiosInstance.get(
+          END_POINTS.GET_REVIEWS.replace(":productId", product._id)
+        );
+        if (response.data?.length <= 0) throw new Error("No reviews found");
+        setReviews(response.data);
       } catch (error) {
         hasError = true;
       } finally {
@@ -57,11 +56,11 @@ export default function ProductDetail() {
 
   async function handleAddReview(e) {
     e.preventDefault();
-    const hasReviewed = reviews.some(
-      (review) => review.reviewBy._id === user._id
-    );
+    const hasReviewed = reviews.some((review) => review.reviewBy === user._id);
     if (hasReviewed) {
       showAlert("You have already reviewed this product", "Info");
+      setReview("");
+      setRating(0);
       return;
     }
     try {
@@ -73,9 +72,12 @@ export default function ProductDetail() {
           productId: product._id,
         }
       );
+      console.log(response);
       setReview("");
       setRating(0);
-      setReviews((prevReviews) => [...prevReviews, response.data.review]);
+      if (response.status === 200) {
+        setReviews((prevReviews) => [...prevReviews, response.data.review]);
+      }
     } catch (error) {
       showAlert("Failed to submit review", "Error");
     }
@@ -131,14 +133,14 @@ export default function ProductDetail() {
             className="w-min flex flex-col justify-start items-start gap-2"
           >
             <div className="flex flex-row items-start justify-center w-full gap-2">
-              <textarea
+              <input
                 name="review"
                 id="review"
                 className="text-center outline-none text-md border-2 text-redwood placeholder:text-redwood bg-white border-mistyRose resize-none rounded-lg p-3 h-10"
                 placeholder="Add a review..."
                 value={review}
                 onChange={(e) => setReview(e.target.value)}
-              ></textarea>
+              />
               <div className="flex items-center space-x-1">
                 {[...Array(5)].map((_, index) => (
                   <span
@@ -166,24 +168,24 @@ export default function ProductDetail() {
         {!loading ? (
           reviews?.map((review) => (
             <div
-              key={review._id}
+              key={review?._id}
               className="w-full h-full flex flex-col justify-start items-start border-b border-mistyRose pb-3 my-2"
             >
               <div className="flex flex-row gap-3 justify-center items-center">
                 <img
-                  src={review.reviewBy.image}
+                  src={review?.reviewBy?.image}
                   alt="user profile"
                   className="w-10 h-10 rounded-full"
                 />
                 <h3 className="text-xl font-semibold">
-                  {review.reviewBy.fullName}
+                  {review?.reviewBy?.fullName}
                 </h3>
                 <div className="flex items-center">
                   {[...Array(5)].map((_, index) => (
                     <span
                       key={index}
                       className={`text-xl ${
-                        index < review.stars
+                        index < review?.stars
                           ? "text-yellow-500"
                           : "text-gray-300"
                       }`}
@@ -193,7 +195,7 @@ export default function ProductDetail() {
                   ))}
                 </div>
               </div>
-              <p className="text-lg">{review.reviewBody}</p>
+              <p className="text-lg">{review?.reviewBody}</p>
             </div>
           ))
         ) : (

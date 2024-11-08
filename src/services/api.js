@@ -20,7 +20,7 @@ const END_POINTS = {
   FETCH_USER: "/user/getUserDetails",
   GET_CATEGORIES: "/getCategories",
   GET_PRODUCTS: "/product/getAllProducts",
-  GET_REVIEWS: "/review/getProductReviews",
+  GET_REVIEWS: "/review/getAllReviewsOfProduct/:productId",
   ADD_REVIEW: "/review/createReview/:productId",
 };
 
