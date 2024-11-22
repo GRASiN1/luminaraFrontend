@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import ReactDOM from "react-dom";
 import { useUser } from "../contexts/UserContext";
 import { useAlert } from "../contexts/AlertContext";
@@ -12,7 +11,6 @@ export default function Authentication({ isOpen, toggleModal }) {
     password: "",
   });
   const [errorMessage, setErrorMessage] = useState("");
-  const navigate = useNavigate();
   const { Login, Signup } = useUser();
   const { showAlert } = useAlert();
 
@@ -60,7 +58,6 @@ export default function Authentication({ isOpen, toggleModal }) {
           isLogin ? "Login successful" : "Signup successful, you can now login",
           "success"
         );
-        navigate("/");
       }
     } catch (error) {
       const message = error.message;

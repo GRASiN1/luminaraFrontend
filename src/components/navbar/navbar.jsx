@@ -6,12 +6,8 @@ import { useUser } from "../../contexts/UserContext";
 
 export default function Navbar() {
   const [searchQuery, setSearchQuery] = useState("");
-  const [isOpen, setIsOpen] = useState(false);
-  const toggleModal = () => {
-    setIsOpen(!isOpen);
-  };
 
-  const { user } = useUser();
+  const { user, toggleModal, isModalOpen } = useUser();
   const navigate = useNavigate();
 
   function handleSearch() {
@@ -133,7 +129,7 @@ export default function Navbar() {
         </div>
       </nav>
       <Alert />
-      <Authentication isOpen={isOpen} toggleModal={toggleModal} />
+      <Authentication isOpen={isModalOpen} toggleModal={toggleModal} />
     </>
   );
 }

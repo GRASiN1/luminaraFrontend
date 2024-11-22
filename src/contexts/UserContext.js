@@ -7,6 +7,11 @@ const UserContext = createContext();
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isUserLoaded, setIsUserLoaded] = useState(false); // Flag to track loading completion
+  const [isModalOpen, setIsModalOpen] = useState(false); // Modal state
+
+  const toggleModal = () => {
+    setIsModalOpen(!isModalOpen);
+  };
 
   useEffect(() => {
     const token = localStorage.getItem("authToken");
@@ -100,6 +105,8 @@ export const UserProvider = ({ children }) => {
         refetchUser,
         setUser,
         isUserLoaded,
+        toggleModal,
+        isModalOpen,
       }}
     >
       {children}

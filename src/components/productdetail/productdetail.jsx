@@ -12,7 +12,7 @@ export default function ProductDetail() {
   const { showAlert } = useAlert();
   const { cartItems, addToCart, removeFromCart } = useCart();
   const navigate = useNavigate();
-  const { user } = useUser();
+  const { user, toggleModal } = useUser();
   const [review, setReview] = useState("");
   const [rating, setRating] = useState(0);
   const [reviews, setReviews] = useState([]);
@@ -38,6 +38,10 @@ export default function ProductDetail() {
   }, [product._id]);
 
   function handleBuy() {
+    if (!user) {
+      toggleModal();
+      return;
+    }
     const existingProductIndex = cartItems.find(
       (item) => item._id === product._id
     );
@@ -50,6 +54,10 @@ export default function ProductDetail() {
   }
 
   function handleAddToCart() {
+    if (!user) {
+      toggleModal();
+      return;
+    }
     addToCart(product);
     showAlert("Product added to cart", "Success");
   }
@@ -173,12 +181,15 @@ export default function ProductDetail() {
             >
               <div className="flex flex-row gap-3 justify-center items-center">
                 <img
-                  src={review?.reviewBy?.image}
+                  src={
+                    review?.reviewBy?.image ||
+                    "https://img.freepik.com/premium-photo/default-female-user-icon-blank-profile-image-pink-background-profile-picture-icon_962764-98382.jpg"
+                  }
                   alt="user profile"
                   className="w-10 h-10 rounded-full"
                 />
                 <h3 className="text-xl font-semibold">
-                  {review?.reviewBy?.fullName}
+                  {review?.reviewBy?.fullName || "Verified User"}
                 </h3>
                 <div className="flex items-center">
                   {[...Array(5)].map((_, index) => (
