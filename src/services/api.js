@@ -22,6 +22,8 @@ const END_POINTS = {
   GET_PRODUCTS: "/product/getAllProducts",
   GET_REVIEWS: "/review/getAllReviewsOfProduct/:productId",
   ADD_REVIEW: "/review/createReview/:productId",
+  GET_ALL_ADDRESSES: "/address/getAllAddressOfUser",
+  ADD_ADDRESS: "/address/createAddress",
 };
 
 export { axiosInstance, END_POINTS, BASE_URL };

@@ -4,14 +4,14 @@ import ReactDOM from "react-dom";
 import { useAlert } from "../../contexts/AlertContext";
 import { axiosInstance, END_POINTS } from "../../services/api";
 
-export default function AddAddress({ isOpen, toggleModal }) {
+export default function AddAddress({ isOpen, toggleModal, fetchAddresses }) {
   const [formData, setFormData] = useState({
-    name: "",
-    address: "",
-    pin_code: "",
+    fullName: "",
+    fullAddress: "",
+    pinCode: "",
     city: "",
     state: "",
-    contact_number: "",
+    phoneNumber: "",
     email: "",
   });
   const { showAlert } = useAlert();
@@ -24,25 +24,32 @@ export default function AddAddress({ isOpen, toggleModal }) {
     }));
   };
   const validateForm = () => {
-    if (formData.name.trim() === "") {
+    if (formData.fullName.trim() === "") {
+      console.log("Full Name is required");
       return false;
     }
-    if (formData.address.trim() === "") {
+    if (formData.fullAddress.trim() === "") {
+      console.log("Full Address is required");
       return false;
     }
-    if (!/^\d{6}$/.test(formData.pin_code)) {
+    if (!/^\d{6}$/.test(formData.pinCode)) {
+      console.log("Invalid Pin Code");
       return false;
     }
     if (formData.city.trim() === "") {
+      console.log("City is required");
       return false;
     }
     if (formData.state.trim() === "") {
+      console.log("State is required");
       return false;
     }
-    if (!/^\+?\d{10,13}$/.test(formData.contact_number)) {
+    if (!/^\+?\d{10,13}$/.test(formData.phoneNumber)) {
+      console.log("Invalid Phone Number");
       return false;
     }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      console.log("Invalid Email");
       return false;
     }
     return true;
@@ -61,15 +68,16 @@ export default function AddAddress({ isOpen, toggleModal }) {
       if (response.status === 200 || response.status === 201) {
         toggleModal();
         setFormData({
-          name: "",
-          address: "",
-          pin_code: "",
+          fullName: "",
+          fullAddress: "",
+          pinCode: "",
           city: "",
           state: "",
-          contact_number: "",
+          phoneNumber: "",
           email: "",
         });
         showAlert("Address added successfully", "success");
+        fetchAddresses();
       }
     } catch (error) {
       console.error("API error:", error);
@@ -102,8 +110,8 @@ export default function AddAddress({ isOpen, toggleModal }) {
                 <div>
                   <input
                     type="text"
-                    name="name"
-                    value={formData.name}
+                    name="fullName"
+                    value={formData.fullName}
                     onChange={handleInputChange}
                     className="w-full p-2 border border-salmonPink rounded-md focus:outline-none shadow-md shadow-salmonPink"
                     placeholder="Aisha Khan"
@@ -113,8 +121,8 @@ export default function AddAddress({ isOpen, toggleModal }) {
                 <div>
                   <input
                     type="text"
-                    name="address"
-                    value={formData.address}
+                    name="fullAddress"
+                    value={formData.fullAddress}
                     onChange={handleInputChange}
                     className="w-full p-2 border border-salmonPink rounded-md focus:outline-none shadow-md shadow-salmonPink"
                     placeholder="123 Maple Street, Apartment 4B"
@@ -124,8 +132,8 @@ export default function AddAddress({ isOpen, toggleModal }) {
                 <div>
                   <input
                     type="text"
-                    name="pincode"
-                    value={formData.pin_code}
+                    name="pinCode"
+                    value={formData.pinCode}
                     onChange={handleInputChange}
                     className="w-full p-2 border border-salmonPink rounded-md focus:outline-none shadow-md shadow-salmonPink"
                     placeholder="226010"
@@ -150,15 +158,15 @@ export default function AddAddress({ isOpen, toggleModal }) {
                     value={formData.state}
                     onChange={handleInputChange}
                     className="w-full p-2 border border-salmonPink rounded-md focus:outline-none shadow-md shadow-salmonPink"
-                    placeholder="Uttat Pradesh"
+                    placeholder="Uttar Pradesh"
                     required
                   />
                 </div>
                 <div>
                   <input
                     type="text"
-                    name="contact_number"
-                    value={formData.contact_number}
+                    name="phoneNumber"
+                    value={formData.phoneNumber}
                     onChange={handleInputChange}
                     className="w-full p-2 border border-salmonPink rounded-md focus:outline-none shadow-md shadow-salmonPink"
                     placeholder="+91 9123456789"

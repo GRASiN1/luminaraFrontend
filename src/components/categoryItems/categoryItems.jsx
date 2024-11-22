@@ -16,19 +16,19 @@ export default function CategoryItems() {
 
   const categories = [
     {
-      title: "Jewelry",
+      title: "Apparel",
       description: "These are jewelry item made out of wool",
       image:
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLG-vq9RueF-dT59_mCiQ7WZstV6Fgx7Nb8A&s",
     },
     {
-      title: "Soft Toy",
+      title: "Baby & Kids",
       description: "These are soft toys made out of wool and cotton",
       image:
         "https://rukminim2.flixcart.com/image/850/1000/l52sivk0/stuffed-toy/n/q/1/amigurumi-handmade-crochet-soft-toy-for-babies-gifting-baby-original-imagftvvrkapc3gq.jpeg?q=90&crop=false",
     },
     {
-      title: "Home decor",
+      title: "Home Decor",
       description:
         "These are home decor items made out of wool, cotton and cardboard",
       image:
