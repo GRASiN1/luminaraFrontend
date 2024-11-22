@@ -19,9 +19,10 @@ export const UserProvider = ({ children }) => {
     if (token) {
       // If token exists, fetch user data
       fetchUserData(token);
+      setIsUserLoaded(true);
     } else {
       // If no token, mark loading as complete
-      setIsUserLoaded(true);
+      setIsUserLoaded(false);
     }
   }, []);
 
@@ -40,13 +41,12 @@ export const UserProvider = ({ children }) => {
         "user",
         JSON.stringify({ _id, fullName, email, role })
       );
+      setIsUserLoaded(true);
     } catch (error) {
       console.error("Error fetching user data:", error);
       if (error.response && error.response.status === 401) {
         localStorage.removeItem("authToken"); // Remove token only on unauthorized
       }
-    } finally {
-      setIsUserLoaded(true); // Mark loading complete regardless of fetch success
     }
   };
 
@@ -55,6 +55,7 @@ export const UserProvider = ({ children }) => {
     const token = localStorage.getItem("authToken");
     if (token) {
       await fetchUserData(token);
+      setIsUserLoaded(true);
     }
   };
 

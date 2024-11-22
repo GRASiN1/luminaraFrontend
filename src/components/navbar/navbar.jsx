@@ -7,7 +7,7 @@ import { useUser } from "../../contexts/UserContext";
 export default function Navbar() {
   const [searchQuery, setSearchQuery] = useState("");
 
-  const { user, toggleModal, isModalOpen } = useUser();
+  const { user, toggleModal, isModalOpen, isUserLoaded } = useUser();
   const navigate = useNavigate();
 
   function handleSearch() {
@@ -68,7 +68,7 @@ export default function Navbar() {
           </div>
         </div>
         <div id="profileSection" className="w-1/3 h-full">
-          {user ? (
+          {user || isUserLoaded ? (
             <div className="flex justify-center items-center w-full h-full">
               <div className="flex justify-center items-center w-min flex-row">
                 <svg
