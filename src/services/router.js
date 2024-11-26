@@ -8,6 +8,7 @@ import Checkout from "../pages/checkout";
 import CartPage from "../pages/cartpage";
 import WishlistPage from "../pages/wishlistpage";
 import ProfilePage from "../pages/profilepage";
+import Payment from "../pages/payment";
 
 // eslint-disable-next-line
 const user = {
@@ -48,6 +49,10 @@ const router = createBrowserRouter([
   {
     path: "/profile",
     element: <ProfilePage />,
+  },
+  {
+    path: "/payment",
+    element: <Payment />,
   },
 ]);
 

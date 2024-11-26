@@ -56,7 +56,7 @@ export default function Checkout() {
             className="w-full h-10 rounded-md text-center bg-black text-white hover:bg-salmonPink hover:text-caputMortuum"
             onClick={handlePayClick}
           >
-            Pay
+            Order
           </button>
         </div>
       </div>
